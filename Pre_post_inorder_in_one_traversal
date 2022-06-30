@@ -1,0 +1,100 @@
+/*********Preorder inorder postorder Traversal in one Traversal***********/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node 
+{
+    int data;
+    struct node *left, *right;
+};
+
+void Traversal(node* root, vector<int>& pre, vector<int>& in, vector<int>& post)
+{
+    stack<pair<node*, int>> s;
+    if(root == NULL)
+    {
+        return;
+    }
+    
+    s.push({root, 1});
+    
+    while(!s.empty())
+    {
+        auto it = s.top();
+        s.pop();
+        
+        if(it.second == 1)
+        {
+            pre.push_back(it.first->data);
+            it.second++;
+            s.push(it);
+            
+            if(it.first->left != NULL)
+            {
+                s.push({it.first->left, 1});
+            }
+        }
+        
+        else if(it.second == 2)
+        {
+            in.push_back(it.first->data);
+            it.second++;
+            s.push(it);
+            
+            if(it.first->right != NULL)
+            {
+                s.push({it.first->right, 1});
+            }
+        }
+        
+        else
+        {
+            post.push_back(it.first->data);
+        }
+    }
+}
+
+struct node *newNode(int data)
+{
+    struct node *n = (struct node *)malloc(sizeof(struct node));
+    n->data = data;
+    n->left = NULL;
+    n->right = NULL;
+    
+    return (n);
+}
+
+int main()
+{
+   struct node *root = newNode(1);
+   root->left = newNode(2);
+   root->right = newNode(5);
+   root->left->left = newNode(3);
+   root->left->right = newNode(4);
+   root->right->left = newNode(6);
+   root->right->right = newNode(7);
+   
+   vector<int> pre, in, post;
+   Traversal(root, pre, in, post);
+   
+   cout<<"The Preorder Traversal is :"<<endl;
+   for(int i=0; i<pre.size(); i++)
+   {
+       cout<<pre[i]<<endl;
+   }
+   
+   cout<<"The Inorder Traversal is :"<<endl;
+   for(int i=0; i<in.size(); i++)
+   {
+       cout<<in[i]<<endl;
+   }
+   
+   cout<<"The Postorder Traversal is :"<<endl;
+   for(int i=0; i<post.size(); i++)
+   {
+       cout<<post[i]<<endl;
+   }
+   
+   return 0;
+}
