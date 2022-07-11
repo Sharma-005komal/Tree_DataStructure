@@ -1,0 +1,8 @@
+TreeNode* searchBST(TreeNode* root, int key)
+{
+     while(root != NULL && root->val != key)
+     {
+          root = val<root->val?root->left:root->right;
+     }
+     return root;
+}
